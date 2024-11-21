@@ -14,35 +14,41 @@ void scanArray(int *pa, int dim)
     }
 }
 
-int indexMax(int *pa, int dim)
-{
-    int max = 0;
-    for (int i = 1; i < dim; i++)
-    {
-        if (pa[max] < pa[i])
-        {
-            max = i;
-        }
-    }
-    return max;
-}
+int maximum(int a, int b) { return a > b ? a : b; }
+int minimum(int a, int b) { return a > b ? b : a; }
 
-int indexMin(int *pa, int dim)
+void maxAndMin(int *pa, int dim, int *max, int *min)
 {
-    int min = 0;
-    for (int i = 1; i < dim; i++)
+    *max = *pa;
+    *min = *pa;
+    if (dim == 1)
+        return;
+    else if (dim == 2)
     {
-        if (pa[min] > pa[i])
+        *max = maximum(pa[0], pa[1]);
+        *min = minimum(pa[0], pa[1]);
+    }
+    else
+    {
+        int maybeMax, maybeMin;
+        for (int i = 1; i < dim; i += 2)
         {
-            min = i;
+            maybeMax = maximum(pa[i - 1], pa[i]);
+            maybeMin = minimum(pa[i - 1], pa[i]);
+            *max = maximum(*max, maybeMax);
+            *min = minimum(*min, maybeMin);
+        }
+        if (dim % 2 != 0)
+        {
+            *max = maximum(*max, pa[dim - 1]);
+            *min = minimum(*min, pa[dim - 1]);
         }
     }
-    return min;
 }
 
 int main()
 {
-    int dim;
+    int dim, max, min;
     printf("How many elements to add: ");
     if (scanf("%d", &dim) != 1 || dim <= 0)
     {
@@ -60,7 +66,8 @@ int main()
     // STATIC ARRAY (VLA)
     int arr[dim];
     scanArray(arr, dim);
-    printf("Max: %d\n", arr[indexMax(arr, dim)]);
-    printf("Min: %d\n", arr[indexMin(arr, dim)]);
+    maxAndMin(arr, dim, &max, &min);
+    printf("Max: %d\n", max);
+    printf("Min: %d\n", min);
     return 0;
 }
