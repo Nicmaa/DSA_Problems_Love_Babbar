@@ -10,7 +10,6 @@ int randomNumber()
 
 void createArray(int *pa)
 {
-	int length = 0;
 	for (int i = 0; i < DIM; i++)
 	{
 		pa[i] = randomNumber();
