@@ -77,6 +77,11 @@ int *intersectionArray(int *pa, int *pb, int dla, int dlb, int *dres)
 
 void printArray(int *pa, int dim)
 {
+    if (dim == 0)
+    {
+        printf("Array is empty.\n");
+        return;
+    }
     for (int i = 0; i < dim; i++)
     {
         printf("%d ", pa[i]);
@@ -95,17 +100,11 @@ int main()
     printArray(b, dlb);
     int *arr = unioneArray(a, b, dla, dlb, &dunion);
     printf("Union Array: ");
-    if (dunion != 0)
-        printArray(arr, dunion);
-    else
-        printf("Empty array!\n");
+    printArray(arr, dunion);
     free(arr);
     int *array = intersectionArray(a, b, dla, dlb, &dintersection);
     printf("Intersection Array: ");
-    if (dintersection != 0)
-        printArray(array, dintersection);
-    else
-        printf("Empty array!\n");
+    printArray(array, dintersection);
     free(array);
     return 0;
 }
