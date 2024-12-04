@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include <time.h>
 #define DIM 10
 
@@ -16,21 +17,23 @@ void initArray(int *arr)
     }
 }
 
-int *findDuplicates(int *arr)
+void findDuplicates(int *arr)
 {
-    int *freq = malloc(DIM * sizeof(int));
-    // I initialize the frequencies array to 0
+    printf("DUPLICATES: ");
     for (int i = 0; i < DIM; i++)
     {
-        freq[i] = 0;
+        int index = arr[i] % DIM;
+        arr[index] += DIM;
     }
 
     for (int i = 0; i < DIM; i++)
     {
-        freq[arr[i]]++;
+        if ((arr[i] / DIM) >= 2)
+        {
+            printf("%d ", i);
+        }
     }
-
-    return freq;
+    printf("\n");
 }
 
 void printArray(int *pa, int dim)
@@ -51,16 +54,8 @@ int main()
 {
     srand(time(NULL));
     int a[DIM];
-    int *b;
     initArray(a);
     printArray(a, DIM);
-    b = findDuplicates(a);
-    printf("DUPLICATES: ");
-    for (int i = 0; i < DIM; i++)
-    {
-        if (b[i] > 1)
-            printf("%d ", i);
-    }
-    printf("\n");
+    findDuplicates(a);
     return 0;
 }
