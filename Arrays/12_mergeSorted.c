@@ -24,30 +24,21 @@ void initArray(int *arr)
     qsort(arr, DIM, sizeof(int), compare);
 }
 
-int *mergeArray(int *a, int *b)
+void mergeArray(int *a, int *b)
 {
-    int *c = (int *)malloc(2 * DIM * sizeof(int));
-    if (!c)
-    {
-        printf("Failed to allocate memory!\n");
-        exit(1);
-    }
+    int i = DIM - 1, j = DIM - 1, k = 2 * DIM - 1;
 
-    int i = 0, j = 0, z = 0;
-
-    while (i < DIM && j < DIM)
+    while (j >= 0)
     {
-        if (a[i] > b[j])
-            c[z++] = b[j++];
+        if (i >= 0 && a[i] > b[j])
+        {
+            a[k--] = a[i--];
+        }
         else
-            c[z++] = a[i++];
+        {
+            a[k--] = b[j--];
+        }
     }
-    while (i < DIM)
-        c[z++] = a[i++];
-    while (j < DIM)
-        c[z++] = b[j++];
-
-    return c;
 }
 
 void printArray(int *pa, int dim)
@@ -66,7 +57,7 @@ void printArray(int *pa, int dim)
 
 int main()
 {
-    int a[DIM], b[DIM];
+    int a[2 * DIM], b[DIM];
     srand(time(NULL));
     initArray(a);
     initArray(b);
@@ -74,9 +65,8 @@ int main()
     printArray(a, DIM);
     printf("B: ");
     printArray(b, DIM);
-    int *c = mergeArray(a, b);
+    mergeArray(a, b);
     printf("Merged Array: ");
-    printArray(c, 2 * DIM);
-    free(c);
+    printArray(a, 2 * DIM);
     return 0;
 }
